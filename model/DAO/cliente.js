@@ -2,21 +2,21 @@ const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
-const insertClientes = async function (animal){
+const insertClientes = async function (cliente){
     try {
         let sql = `insert into tbl_clientes(nome,email,telefone,cidade)
     values(
-        '${animal.nome}',
-        '${animal.email}',
-        '${animal.telefone}',
-        '${animal.cidade}'
+        '${cliente.nome}',
+        '${cliente.email}',
+        '${cliente.telefone}',
+        '${cliente.cidade}'
     );`
         
         let result = await prisma.$executeRawUnsafe(sql)
         console.log(result)
 
         if (result) {
-            let sqlSelect = `SELECT * FROM tbl_clientes WHERE nome = '${animal.nome}' ORDER by id DESC LIMIT 1`
+            let sqlSelect = `SELECT * FROM tbl_clientes WHERE nome = '${cliente.nome}' ORDER by id DESC LIMIT 1`
             let criado = await prisma.$queryRawUnsafe(sqlSelect)
             return criado[0]
         } else {
@@ -27,13 +27,13 @@ const insertClientes = async function (animal){
     }
 }
 
-const updateClientes = async function (animal) {
+const updateClientes = async function (cliente) {
     try{
-        let sql = `update tbl_clientes set nome = '${animal.nome}',
-                                           email = '${animal.email}',
-                                           telefone = '${animal.telefone}',
-                                           cidade = '${animal.cidade}'
-                                           where id = ${animal.id}`
+        let sql = `update tbl_clientes set nome = '${cliente.nome}',
+                                           email = '${cliente.email}',
+                                           telefone = '${cliente.telefone}',
+                                           cidade = '${cliente.cidade}'
+                                           where id = ${cliente.id}`
                                         
         let result = await prisma.$executeRawUnsafe(sql)
 
@@ -86,8 +86,8 @@ const selectAllClientes = async function () {
 
 const selectByIdClientes = async function (id) {
     try{
-        let idAnimal = id
-        let sql = `SELECT * FROM tbl_clientes WHERE id = ${idAnimal}`
+        let idcliente = id
+        let sql = `SELECT * FROM tbl_clientes WHERE id = ${idcliente}`
 
         let result = await prisma.$queryRawUnsafe(sql)
 
